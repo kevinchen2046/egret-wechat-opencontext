@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin width="500" height="800" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" class="skins.DialogSkin">
+	<e:Image source="button_down_png" x="0" y="0" scale9Grid="2,3,10,9" width="500" height="800" locked="true"/>
+	<e:Button id="btnClose" label="关闭" x="200" y="706" locked="true"/>
+	<e:Label text="窗体" y="36" horizontalCenter="0" locked="true"/>
+	<e:Group id="group" width="428" height="588" x="40" y="81"/>
+</e:Skin>

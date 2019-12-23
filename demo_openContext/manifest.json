@@ -1,0 +1,23 @@
+{
+	"initial": [
+		"libs/modules/egret/egret.js",
+		"libs/modules/egret/egret.web.js",
+		"libs/modules/game/game.js",
+		"libs/modules/tween/tween.js"
+	],
+	"game": [
+		"bin-debug/components/Component.js",
+		"bin-debug/components/Image.js",
+		"bin-debug/components/IconButton.js",
+		"bin-debug/components/ListRenderer.js",
+		"bin-debug/openContext/ContentOpenContext.js",
+		"bin-debug/components/List.js",
+		"bin-debug/Main.js",
+		"bin-debug/components/ImageLoader.js",
+		"bin-debug/components/SnapButton.js",
+		"bin-debug/components/Label.js",
+		"bin-debug/openContext/OpenContextEvent.js",
+		"bin-debug/openContext/OpenContextMananger.js",
+		"bin-debug/openContext/OpenContextViewName.js"
+	]
+}

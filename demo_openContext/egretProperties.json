@@ -1,0 +1,19 @@
+{
+  "engineVersion": "5.2.31",
+  "compilerVersion": "5.2.31",
+  "template": {},
+  "target": {
+    "current": "web"
+  },
+  "modules": [
+    {
+      "name": "egret"
+    },
+    {
+      "name": "game"
+    },
+    {
+      "name": "tween"
+    }
+  ]
+}
