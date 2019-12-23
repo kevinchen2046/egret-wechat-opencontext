@@ -1,6 +1,7 @@
 module opencontext {
 	export class OpenContextManager {
 		private _stage: egret.Stage;
+		private _black: egret.Shape;
 		private _shareDisplayObject: egret.DisplayObject;
 		private _mainContainer: egret.DisplayObjectContainer;
 		private _views: { [key: string]: { clazz: any, view: DialogOpenContext } }
@@ -22,7 +23,8 @@ module opencontext {
 		public initialize(stage: egret.Stage, container: egret.DisplayObjectContainer) {
 			this._stage = stage;
 			this._mainContainer = container;
-			this._views={};
+			this._views = {};
+			this._black=new egret.Shape();
 			this._shareDisplayObject = this.createDisplayObject(stage.stageWidth, stage.stageHeight);
 		}
 
@@ -36,41 +38,49 @@ module opencontext {
 					this._views[viewName].view = new (this._views[viewName].clazz)();
 				}
 				if (this._views[viewName].view) {
-					if(!this._views[viewName].view.group){
+					if (!this._views[viewName].view.group) {
 						console.error('窗口打开失败,当前窗口缺少为开放域窗体定义的变量group:eui.Group!');
 						return;
 					}
+					this._black.graphics.clear();
+					this._black.graphics.beginFill(0,0.7);
+					this._black.graphics.drawRect(0,0,this._stage.stageWidth,this._stage.stageHeight);
+					this._black.graphics.endFill();
+					this._mainContainer.addChild(this._black);
 					this._mainContainer.addChild(this._views[viewName].view);
 					this._curView = this._views[viewName].view;
 					this._curView.x = this._stage.stageWidth / 2 - this._curView.width / 2;
-					this._curView.y = this._stage.$stageHeight / 2 - this._curView.height / 2;
+					this._curView.y = this._stage.stageHeight / 2 - this._curView.height / 2;
 					this._curView.add();
-					var p:egret.Point=this._curView.group.localToGlobal();
-					this.postMessage(OpenContextEvent.OPEN, { viewName: viewName ,x:p?p.x:0,y:p?p.y:0});
+					var p: egret.Point = this._curView.group.localToGlobal();
+					this.postMessage(OpenContextEvent.OPEN, { viewName: viewName, x: p ? p.x : 0, y: p ? p.y : 0 });
 
 					var sx = this._curView.x;
 					var sy = this._curView.y;
 					this._curView.scaleX = this._curView.scaleY = 0.1;
-					this._curView.x = this._stage.stageWidth / 2 - this._curView.width*this._curView.scaleX / 2;
-					this._curView.y = this._stage.$stageHeight / 2 - this._curView.height*this._curView.scaleY / 2;
-					egret.Tween.get(this._curView).to({ x: sx, y: sy, scaleX: 1, scaleY: 1 }, 300, egret.Ease.backOut).call(this.showOver,this);
+					this._curView.x = this._stage.stageWidth / 2 - this._curView.width * this._curView.scaleX / 2;
+					this._curView.y = this._stage.$stageHeight / 2 - this._curView.height * this._curView.scaleY / 2;
+					egret.Tween.get(this._curView).to({ x: sx, y: sy, scaleX: 1, scaleY: 1 }, 300, egret.Ease.backOut).call(this.showOver, this);
 				}
 			}
 		}
-		
-		private showOver(){
+
+		private showOver() {
 			this._stage.addChild(this._shareDisplayObject);
 		}
 
 		public close() {
-			if(!this._curView) return;
+			if (!this._curView) return;
 			egret.Tween.removeTweens(this._curView);
 			if (this._curView.parent) {
 				this._curView.remove();
 				this._curView.parent.removeChild(this._curView);
 				this.postMessage(OpenContextEvent.CLOSE);
 			}
-			if(this._shareDisplayObject.parent){
+			if(this._black.parent){
+				this._black.parent.removeChild(this._black);
+			}
+			if (this._shareDisplayObject.parent) {
 				this._shareDisplayObject.parent.removeChild(this._shareDisplayObject);
 			}
 		}
