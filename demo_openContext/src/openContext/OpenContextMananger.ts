@@ -36,6 +36,14 @@ module opencontext {
 				case OpenContextEvent.CLOSE:
 					this.close();
 				break;
+				default:
+				if(this._messageHandlers[res.event]){
+					var list=this._messageHandlers[res.event];
+					for(var obj of list){
+						obj.method.call(obj.caller,res);
+					}
+				}
+				break;
 			}
 		}
 
