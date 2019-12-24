@@ -511,9 +511,9 @@ var Renderer = (function (_super) {
         var iconButton = new ui.IconButton();
         iconButton.scale9grid = new egret.Rectangle(20, 20, 20, 20);
         iconButton.url = 'resource-opencontext/back_gold.png';
-        iconButton.setAnchorOffset(50, 50);
-        iconButton.width = 100;
-        iconButton.height = 100;
+        //iconButton.setAnchorOffset(50, 50);
+        iconButton.width = 130;
+        iconButton.height = 80;
         iconButton.x = 300;
         iconButton.y = 75;
         this.addChild(iconButton);
@@ -842,6 +842,15 @@ var opencontext;
                     break;
                 case opencontext.OpenContextEvent.CLOSE:
                     this.close();
+                    break;
+                default:
+                    if (this._messageHandlers[res.event]) {
+                        var list = this._messageHandlers[res.event];
+                        for (var _i = 0, list_2 = list; _i < list_2.length; _i++) {
+                            var obj = list_2[_i];
+                            obj.method.call(obj.caller, res);
+                        }
+                    }
                     break;
             }
         };

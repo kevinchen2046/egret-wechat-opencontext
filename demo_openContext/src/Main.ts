@@ -143,9 +143,9 @@ class Renderer extends ui.ListRenderer {
         var iconButton: ui.IconButton = new ui.IconButton();
         iconButton.scale9grid = new egret.Rectangle(20, 20, 20, 20);
         iconButton.url = 'resource-opencontext/back_gold.png';
-        iconButton.setAnchorOffset(50, 50);
-        iconButton.width = 100;
-        iconButton.height = 100;
+        //iconButton.setAnchorOffset(50, 50);
+        iconButton.width = 130;
+        iconButton.height = 80;
         iconButton.x = 300;
         iconButton.y = 75;
         this.addChild(iconButton);
