@@ -1,4 +1,4 @@
-#说明
+# 说明
 
 ## publish-release.bat
     发布开放域release版本

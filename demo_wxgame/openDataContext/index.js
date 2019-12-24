@@ -1,9 +1,9 @@
-require('./weapp-adapter.js');
-require('./egret.js');
-require('./tween.js');
-require('./game.js');
-require('./egret.wxgame.js');
-require('./main.js');
+require('./weapp-adapter.min.js');
+require('./egret.min.js');
+require('./tween.min.js');
+require('./game.min.js');
+require('./egret.wxgame.min.js');
+require('./main.min.js');
 let sharedCanvas = wx.getSharedCanvas();
 let sharedContext = sharedCanvas.getContext('2d');
 egret.wxgame.isSubContext = true;
