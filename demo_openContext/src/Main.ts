@@ -114,14 +114,16 @@ class ExampleContent extends opencontext.ContentOpenContext {
         this.addChild(this._list);
         this._list.listRenderer = Renderer;
         this._list.dataSource = ['1111', '2222', '3333', '444', '555', '6t666', '67777','1111', '2222', '3333', '444', '555', '6t666', '67777'];
-        this._list.width = 428;
-        this._list.height = 588;
+        this.size(428,588);
     }
+
+    protected invalidateSize(){
+        this._list.width = this.width;
+        this._list.height = this.height;
+    }   
 
     public add(){
         super.add();
-        this._list.width = 428;
-        this._list.height = 588;
     }
 }
 

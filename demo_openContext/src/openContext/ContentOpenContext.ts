@@ -1,12 +1,7 @@
 module opencontext{
-    export class ContentOpenContext extends egret.DisplayObjectContainer{
+    export class ContentOpenContext extends ui.Component{
         constructor(){
             super();
-            this.createChildren();
-        }
-
-        protected createChildren(){
-
         }
 
         public add(){

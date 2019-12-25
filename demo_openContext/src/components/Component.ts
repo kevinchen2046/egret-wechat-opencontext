@@ -2,7 +2,6 @@ module ui {
     export class Component extends egret.DisplayObjectContainer {
         protected _enabled: boolean;
         protected _anchorOffset:{x:number,y:number};
-
         constructor() {
             super();
             this._enabled = true;

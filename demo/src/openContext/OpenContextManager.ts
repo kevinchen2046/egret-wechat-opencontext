@@ -60,14 +60,16 @@ module opencontext {
 					this._curView.scaleX = this._curView.scaleY = 0.1;
 					this._curView.x = this._stage.stageWidth / 2 - this._curView.width * this._curView.scaleX / 2;
 					this._curView.y = this._stage.$stageHeight / 2 - this._curView.height * this._curView.scaleY / 2;
-					egret.Tween.get(this._curView).to({ x: sx, y: sy, scaleX: 1, scaleY: 1 }, 300, egret.Ease.backOut).call(this.showOver, this);
+					this._stage.addChild(this._shareDisplayObject);
+					egret.Tween.get(this._curView).to({ x: sx, y: sy, scaleX: 1, scaleY: 1 }, 300, egret.Ease.backOut)
+					//.call(this.showOver, this);
 				}
 			}
 		}
 
-		private showOver() {
-			this._stage.addChild(this._shareDisplayObject);
-		}
+		// private showOver() {
+		// 	this._stage.addChild(this._shareDisplayObject);
+		// }
 
 		public close() {
 			if (!this._curView) return;

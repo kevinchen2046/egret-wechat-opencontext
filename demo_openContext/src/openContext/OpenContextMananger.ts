@@ -70,11 +70,23 @@ module opencontext {
 					this._curView.x=x;
 					this._curView.y=y;
 					this._curView.add();
+
+					var tx=this._curView.x;
+					var ty=this._curView.y;
+					var w=this._curView.width;
+					var h=this._curView.height;
+
+					this._curView.scaleX=this._curView.scaleY=0.1;
+					this._curView.x=tx+w/2-(this._curView.width*this._curView.scaleX)/2;
+					this._curView.y=ty+h/2-(this._curView.height*this._curView.scaleY)/2;
+					console.log('t',tx,ty,this._curView.x,this._curView.y);
+					egret.Tween.get(this._curView).to({ x: tx, y: ty, scaleX: 1, scaleY: 1 }, 300, egret.Ease.backOut);
 				}
 			}
 		}
 
 		public close() {
+			egret.Tween.removeTweens(this._curView);
 			if(this._curView.parent){
 				this._curView.remove();
 				this._curView.parent.removeChild(this._curView);
