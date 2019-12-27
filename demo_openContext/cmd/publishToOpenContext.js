@@ -7,39 +7,51 @@ class PublishOpenContextPlugin {
     constructor(publishType) {
         var parentPath = path.dirname(__dirname);
         var projectName = path.basename(parentPath);
-        var mainProjectName = projectName.split('_')[0];
+        var mainProjectName = projectName.substring(0, projectName.lastIndexOf('_'));
         var mainOutDir = `../${mainProjectName}_wxgame`;
-        this.build(publishType,mainOutDir);
+        this.build(mainProjectName, publishType, mainOutDir);
     }
 
-    async build(publishType, mainOutDir) {
+    async build(mainProjectName, publishType, mainOutDir) {
         await this.runCmd('egret publish -target wxgame');
 
+        if (!fs.existsSync(`${mainOutDir}/resource-opencontext`)) this.createFolder(`${mainOutDir}/resource-opencontext`);
         this.clearFolder(`${mainOutDir}/resource-opencontext`);
         this.copyFolder(`./resource-opencontext`, `${mainOutDir}/resource-opencontext`, true);
 
-        this.clearFolder(`${mainOutDir}/openDataContext`);
+        var openContextFolderName = 'openDataContext';
+        if (fs.existsSync(mainOutDir)) {
+            var gameconfig = JSON.parse(fs.readFileSync(`${mainOutDir}/game.json`).toString());
+            openContextFolderName = gameconfig.openDataContext;
+        }
+        var scriptOutDir = `${mainOutDir}/${openContextFolderName}`;
+        this.clearFolder(scriptOutDir); 
         if (publishType == '-release') {
             await this.runCmd('uglifyjs ./bin_wxgame/js/main.js -o ./bin_wxgame/js/main.min.js');
         }
-
         if (publishType == '-release') {
-            this.copyFile(`./scripts-opencontext/egret.min.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/egret.wxgame.min.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/game.min.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/tween.min.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/weapp-adapter.min.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./bin_wxgame/js/main.min.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/index.min.js`, `${mainOutDir}/openDataContext`,'index.js');
+            this.copyFile(`./scripts-opencontext/egret.min.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/egret.wxgame.min.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/game.min.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/tween.min.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/weapp-adapter.min.js`, scriptOutDir);
+            this.copyFile(`./bin_wxgame/js/main.min.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/index.min.js`, scriptOutDir, 'index.js');
         } else {
-            this.copyFile(`./scripts-opencontext/egret.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/egret.wxgame.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/game.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/tween.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/weapp-adapter.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./bin_wxgame/js/main.js`, `${mainOutDir}/openDataContext`);
-            this.copyFile(`./scripts-opencontext/index.js`, `${mainOutDir}/openDataContext`);
+            this.copyFile(`./scripts-opencontext/egret.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/egret.wxgame.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/game.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/tween.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/weapp-adapter.js`, scriptOutDir);
+            this.copyFile(`./bin_wxgame/js/main.js`, scriptOutDir);
+            this.copyFile(`./scripts-opencontext/index.js`, scriptOutDir);
         }
+
+        var htmlConfig = fs.readFileSync(`../${mainProjectName}/index.html`).toString();
+        var values=this.getValues(`../${mainProjectName}/index.html`,['data-content-width','data-content-height']);
+        var indexConfig = fs.readFileSync(`${scriptOutDir}/index.js`).toString();
+        indexConfig = indexConfig.replace(/640/g, values[0]).replace(/1136/g, values[1]);
+        fs.writeFileSync(`${scriptOutDir}/index.js`, indexConfig, 'utf-8');
     }
 
     async runCmd(cmd, method) {
@@ -180,6 +192,82 @@ class PublishOpenContextPlugin {
             }
         }
     }
+
+
+    getIndexs(content, property) {
+        var index = content.indexOf(property);
+        var startIndex;
+        var startChar;
+        var i = index + property.length;
+        
+        while (true) {
+            var char = content.charAt(i);
+            if (char == ':' || char == ' ' || char == '    '|| char == '=') {
+                i++;
+                continue;
+            }
+            if (char == "'" || char == '"') {
+                startIndex = i;
+                startChar = char;
+                break;
+            }
+            break;
+        }
+        if (!startIndex) {
+            console.error(`A格式不合法,取值失败...`);
+            return null;
+        }
+        var endIndex = content.indexOf(startChar, startIndex + 1);
+        if (!endIndex) {
+            console.error(`B格式不合法,取值失败...`);
+            return null;
+        }
+        return {start:startIndex,end:endIndex};
+    }
+
+    /**对文件中变量填值*/
+    fillValue(file, objectName, property, value) {
+        var content = fs.readFileSync(file, 'utf-8').toString();
+        var index = content.indexOf(objectName);
+        if (index == -1) {
+            console.error(`在文件${file}未找到名称${objectName},填值失败...`);
+            return;
+        }
+        // if(content.indexOf(objectName,index+objectName.length)>0){
+        //     console.error(`在文件${file}找到多个名称${objectName}!填值失败...`);
+        //     return;
+        // }
+        index = content.indexOf(property, index + objectName.length);
+        if (index == -1) {
+            console.error(`在文件${file}未找到名称${property},填值失败...`);
+            return;
+        }
+        var indexs = this.getIndexs(content, property);
+        if (indexs.start==-1||indexs.end==-1){
+            console.error(`在文件${file}属性${property}格式不合法,填值失败...`);
+            return;
+        }
+        content = content.substring(0, indexs.start + 1) + value + content.substring(indexs.end, content.length);
+        fs.writeFileSync(file, content, 'utf-8');
+    }
+
+    /**对文件中变量填值*/
+    getValues(file, propertys) {
+        var content = fs.readFileSync(file, 'utf-8').toString();
+        var results = [];
+        for (var property of propertys) {
+            var index = content.indexOf(property);
+            if (index == -1) {
+                console.error(`在文件${file}未找到名称${property},取值失败...`);
+                results.push(null);
+                continue;
+            }
+            var indexs=this.getIndexs(content, property);
+            results.push(content.substring(indexs.start+1,indexs.end));
+        }
+        return results;
+    }
+
 }
 
 new PublishOpenContextPlugin(process.argv[2]);
