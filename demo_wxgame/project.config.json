@@ -4,16 +4,30 @@
 		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
-		"minified": true,
-		"newFeature": true
+		"minified": false,
+		"newFeature": true,
+		"coverView": true,
+		"nodeModules": true,
+		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
 	},
 	"compileType": "game",
-	"libVersion": "game",
+	"libVersion": "2.10.0",
 	"appid": "wxa6493d019031f91c",
 	"projectname": "demo_wxgame",
 	"isGameTourist": true,
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"jsserverRoot": "jsserver/",
 	"condition": {
 		"search": {
 			"current": -1,
