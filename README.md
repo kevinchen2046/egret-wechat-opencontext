@@ -38,15 +38,15 @@
 ### 主域
 主域显示UI
 ```javascript
-opencontext.OpenContextManager.instance.initialize(this.stage, this);
-opencontext.OpenContextManager.instance.registerView(opencontext.OpenContextViewName.Example, ExampleDialog);
-opencontext.OpenContextManager.instance.show(opencontext.OpenContextViewName.Example);
+openctx.initialize(this.stage, this);
+openctx.registerView(opencontext.OpenContextViewName.Example, ExampleDialog);
+openctx.show(opencontext.OpenContextViewName.Example);
 ```
 ### 开放域
 开放域注册UI内容
 ```javascript
-opencontext.OpenContextManager.instance.initialize(this.stage,this);
-opencontext.OpenContextManager.instance.registerView(opencontext.OpenContextViewName.Example,ExampleContent);
+openctx.registerView(opencontext.OpenContextViewName.Example,ExampleContent);
+openctx.initialize(this.stage,this);
 ```
 
 ### 注意

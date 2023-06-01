@@ -85,7 +85,7 @@ class Main extends eui.UILayer {
     }
 
     private loadTheme() {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             // load skin theme configuration file, you can manually modify the file. And replace the default skin.
             //加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
             let theme = new eui.Theme("resource/default.thm.json", this.stage);
@@ -124,17 +124,17 @@ class Main extends eui.UILayer {
         button.y=this.stage.stageHeight/2-button.height/2;
         
         button.addEventListener(egret.TouchEvent.TOUCH_TAP,()=>{
-            opencontext.OpenContextManager.instance.show(opencontext.OpenContextViewName.Example);
+            openctx.show(openctx.UIName.Example);
         },this);
-        opencontext.OpenContextManager.instance.initialize(this.stage, this);
-        opencontext.OpenContextManager.instance.registerView(opencontext.OpenContextViewName.Example, ExampleDialog);
+        openctx.initialize(this.stage, this);
+        openctx.registerView(openctx.UIName.Example, ExampleDialog);
     }
 }
 
-class ExampleDialog extends opencontext.DialogOpenContext {
+class ExampleDialog extends openctx.DialogOpenContext {
     public btnClose: eui.Button;
     constructor() {
-        super(opencontext.OpenContextViewName.Example);
+        super(openctx.UIName.Example);
         this.skinName = `skins.DialogSkin`;
     }
 
@@ -148,6 +148,6 @@ class ExampleDialog extends opencontext.DialogOpenContext {
     }
 
     private touchHandler() {
-        opencontext.OpenContextManager.instance.close();
+        openctx.close();
     }
 }

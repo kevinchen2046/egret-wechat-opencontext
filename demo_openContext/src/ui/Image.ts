@@ -46,9 +46,9 @@ module ui {
             this._bitmap.height = this.height;
         }
 
-        protected updateAnchorOffset() {
-            this._bitmap.x = -this._anchorOffset.x;
-            this._bitmap.y = -this._anchorOffset.y;
-        }
+        // protected updateAnchorOffset() {
+        //     this._bitmap.x = -this.anchorOffsetX.x;
+        //     this._bitmap.y = -this._anchorOffset.y;
+        // }
     }
 }

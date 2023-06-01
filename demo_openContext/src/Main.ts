@@ -31,6 +31,11 @@ class Main extends egret.DisplayObjectContainer {
 
     constructor() {
         super();
+
+        openctx.registerView(openctx.UIName.Example, ExampleContent)
+
+        openctx.initialize(egret.lifecycle.stage, this);
+
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.createChildren, this);
     }
 
@@ -48,62 +53,10 @@ class Main extends egret.DisplayObjectContainer {
         egret.lifecycle.onResume = () => {
             egret.ticker.resume();
         }
-
-        // var button:MainUI=new MainUI();
-        // this.addChild(button);
-
-        // var shape = new egret.Shape();
-        // shape.graphics.beginFill(0xFFFFFF, 0.5);
-        // shape.graphics.drawRect(0, 0, this.stage.stageWidth, this.stage.stageHeight);
-        // this.addChild(shape);
-
-        // var sprite = new egret.Sprite();
-        // sprite.graphics.beginFill(0xFFFF00, 0.5);
-        // sprite.graphics.drawRect(0, 0, this.stage.stageWidth / 2, this.stage.stageHeight / 2);
-        // this.stage.addChild(sprite);
-
-        // // this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
-        // //   console.log('click');
-        // // }, this)
-        // sprite.touchEnabled = true;
-        // sprite.touchChildren = true;
-
-        // sprite.addEventListener(egret.TouchEvent.TOUCH_BEGIN, () => {
-        //     console.log('click11');
-        // }, this)
-
-        // var image: ui.Image = new ui.Image();
-        // image.scale9grid = new egret.Rectangle(20, 20, 20, 20);
-        // image.url = 'resource/openContext/back_gold.png';
-        // image.width = 300;
-        // image.height = 200;
-        // this.addChild(image);
-
-        // var iconButton: ui.IconButton = new ui.IconButton();
-        // iconButton.scale9grid = new egret.Rectangle(20, 20, 20, 20);
-        // iconButton.url = 'resource/openContext/back_gold.png';
-        // iconButton.setAnchorOffset(150, 100);
-        // iconButton.width = 300;
-        // iconButton.height = 100;
-        // iconButton.x = 300;
-        // this.addChild(iconButton);
-
-        // var snapButton: ui.SnapButton = new ui.SnapButton();
-        // snapButton.scale9grid = new egret.Rectangle(20, 20, 20, 20);
-        // snapButton.url = 'resource/openContext/back_gold.png';
-        // snapButton.label = 'XXXXXXX';
-        // snapButton.setAnchorOffset(150, 100);
-        // snapButton.width = 300;
-        // snapButton.height = 100;
-        // snapButton.x = 300;
-        // snapButton.y = 200;
-        // this.addChild(snapButton);
-        opencontext.OpenContextManager.instance.initialize(this.stage,this);
-        opencontext.OpenContextManager.instance.registerView(opencontext.OpenContextViewName.Example,ExampleContent)
     }
 }
 
-class ExampleContent extends opencontext.ContentOpenContext {
+class ExampleContent extends openctx.UIOpenContext {
     private _list: ui.List
     constructor() {
         super();
@@ -113,16 +66,16 @@ class ExampleContent extends opencontext.ContentOpenContext {
         this._list = new ui.List();
         this.addChild(this._list);
         this._list.listRenderer = Renderer;
-        this._list.dataSource = ['1111', '2222', '3333', '444', '555', '6t666', '67777','1111', '2222', '3333', '444', '555', '6t666', '67777'];
-        this.size(428,588);
+        this._list.dataSource = ['1111', '2222', '3333', '444', '555', '6t666', '67777', '1111', '2222', '3333', '444', '555', '6t666', '67777'];
+        this.size(428, 588);
     }
 
-    protected invalidateSize(){
+    protected invalidateSize() {
         this._list.width = this.width;
         this._list.height = this.height;
-    }   
+    }
 
-    public add(){
+    public add() {
         super.add();
     }
 }
@@ -145,11 +98,11 @@ class Renderer extends ui.ListRenderer {
         var iconButton: ui.IconButton = new ui.IconButton();
         iconButton.scale9grid = new egret.Rectangle(20, 20, 20, 20);
         iconButton.url = 'resource-opencontext/back_gold.png';
-        iconButton.setAnchorOffset(75, 40);
+        iconButton.pivot(0.5,0.5);
         iconButton.width = 130;
         iconButton.height = 80;
-        iconButton.x = 300+75;
-        iconButton.y = 75+40;
+        iconButton.x = 428 - 130/2 - 20;
+        iconButton.y = 200 / 2 ;
         this.addChild(iconButton);
 
         this.size(400, 200);

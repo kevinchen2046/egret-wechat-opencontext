@@ -18,10 +18,10 @@ egret.runEgret({
     //----auto option start----
 		entryClassName: "Main",
 		orientation: "portrait",
-		frameRate: 30,
+		frameRate: 60,
 		scaleMode: "fixedNarrow",
-		contentWidth: 600,
-		contentHeight: 1080,
+		contentWidth: 640,
+		contentHeight: 1136,
 		showFPS: false,
 		fpsStyles: "x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9",
 		showLog: false,

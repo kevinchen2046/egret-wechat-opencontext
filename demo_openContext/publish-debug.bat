@@ -1,1 +1,1 @@
-node cmd/publishToOpenContext.js -debug
+node tools/publishToOpenContext.js -debug

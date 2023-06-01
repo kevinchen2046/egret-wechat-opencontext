@@ -27,9 +27,8 @@ module ui {
             egret.Tween.removeTweens(this);
             switch (e.type) {
                 case egret.TouchEvent.TOUCH_BEGIN:
-                    this.scaleX = this._scaleX;
-                    this.scaleY = this._scaleY;
-                    egret.Tween.removeTweens(this);
+                    // this.scaleX = this._scaleX;
+                    // this.scaleY = this._scaleY;
                     egret.Tween.get(this).to({ scaleX: this._scaleX * this._minscale, scaleY: this._scaleY * this._minscale }, 300, egret.Ease.cubicOut);
                     this.stage.addEventListener(egret.TouchEvent.TOUCH_END, this.touchHandler, this);
                     // if(this._sound) mg.soundManager.playSound(this._sound,1,this._soundOvedrride);

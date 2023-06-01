@@ -33,12 +33,12 @@ module ui {
             egret.callLater(this.invalidateSize,this);
         }
 
-        protected updateAnchorOffset() {
-            this._bitmap.x = -this._anchorOffset.x;
-            this._bitmap.y = -this._anchorOffset.y;
-            this._label.x = -this._anchorOffset.x;
-            this._label.y = this.height/2-this._label.height/2-this._anchorOffset.y+this.height*this._offsetLabel.y;
-        }
+        // protected updateAnchorOffset() {
+        //     this._bitmap.x = -this._anchorOffset.x;
+        //     this._bitmap.y = -this._anchorOffset.y;
+        //     this._label.x = -this._anchorOffset.x;
+        //     this._label.y = this.height/2-this._label.height/2-this._anchorOffset.y+this.height*this._offsetLabel.y;
+        // }
 
         protected invalidateSize() {
             super.invalidateSize();

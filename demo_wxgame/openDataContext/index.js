@@ -28,16 +28,3 @@ egret.runEgret({
     return s1 > s2 ? s1 : s2;
   }
 });
-
-wx.modifyFriendInteractiveStorage({
-  key: '5',
-  opNum: 1,
-  operation: 'add',
-  // 静默修改需要用户通过快捷分享消息卡片进入才有效，代表分享反馈操作，无需填写 toUser，直接修改分享者与被分享者交互数据
-  quiet: true,
-  complete: (res) => {
-    console.log('好友成功进入:', res);
-  }
-});
-
-console.log(11111);

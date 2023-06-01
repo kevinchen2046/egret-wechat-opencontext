@@ -1,5 +1,25 @@
-module opencontext {
-	export class OpenContextManager {
+module openctx {
+	export class DialogOpenContext extends eui.Component {
+		public group: eui.Group;
+		protected _viewName: string;
+		constructor(viewName: string) {
+			super();
+			this._viewName = viewName;
+		}
+
+		protected createChildren() {
+			super.createChildren();
+		}
+
+		public add() {
+
+		}
+
+		public remove() {
+
+		}
+	}
+	class OpenCtxManager {
 		private _stage: egret.Stage;
 		private _black: egret.Shape;
 		private _shareDisplayObject: egret.DisplayObject;
@@ -7,15 +27,15 @@ module opencontext {
 		private _views: { [key: string]: { clazz: any, view: DialogOpenContext } }
 		private _curView: DialogOpenContext;
 		public constructor() {
-			if (OpenContextManager._instance) throw ("");
+			if (OpenCtxManager._instance) throw ("");
 		}
 
-		private static _instance: OpenContextManager;
-		public static get instance(): OpenContextManager {
-			if (!OpenContextManager._instance) {
-				OpenContextManager._instance = new OpenContextManager();
+		private static _instance: OpenCtxManager;
+		public static get instance(): OpenCtxManager {
+			if (!OpenCtxManager._instance) {
+				OpenCtxManager._instance = new OpenCtxManager();
 			}
-			return OpenContextManager._instance;
+			return OpenCtxManager._instance;
 		}
 
 		public get shareDisplayObject() { return this._shareDisplayObject; }
@@ -24,7 +44,7 @@ module opencontext {
 			this._stage = stage;
 			this._mainContainer = container;
 			this._views = {};
-			this._black=new egret.Shape();
+			this._black = new egret.Shape();
 			this._shareDisplayObject = this.createDisplayObject(stage.stageWidth, stage.stageHeight);
 		}
 
@@ -43,8 +63,8 @@ module opencontext {
 						return;
 					}
 					this._black.graphics.clear();
-					this._black.graphics.beginFill(0,0.7);
-					this._black.graphics.drawRect(0,0,this._stage.stageWidth,this._stage.stageHeight);
+					this._black.graphics.beginFill(0, 0.7);
+					this._black.graphics.drawRect(0, 0, this._stage.stageWidth, this._stage.stageHeight);
 					this._black.graphics.endFill();
 					this._mainContainer.addChild(this._black);
 					this._mainContainer.addChild(this._views[viewName].view);
@@ -53,7 +73,7 @@ module opencontext {
 					this._curView.y = this._stage.stageHeight / 2 - this._curView.height / 2;
 					this._curView.add();
 					var p: egret.Point = this._curView.group.localToGlobal();
-					this.postMessage(OpenContextEvent.OPEN, { viewName: viewName, x: p ? p.x : 0, y: p ? p.y : 0 });
+					this.postMessage(Event.OPEN, { viewName: viewName, x: p ? p.x : 0, y: p ? p.y : 0 });
 
 					var sx = this._curView.x;
 					var sy = this._curView.y;
@@ -77,9 +97,9 @@ module opencontext {
 			if (this._curView.parent) {
 				this._curView.remove();
 				this._curView.parent.removeChild(this._curView);
-				this.postMessage(OpenContextEvent.CLOSE);
+				this.postMessage(Event.CLOSE);
 			}
-			if(this._black.parent){
+			if (this._black.parent) {
 				this._black.parent.removeChild(this._black);
 			}
 			if (this._shareDisplayObject.parent) {
@@ -122,4 +142,9 @@ module opencontext {
 			(wx as any).getOpenDataContext().postMessage(data);
 		}
 	}
+	export let initialize = OpenCtxManager.instance.initialize.bind(OpenCtxManager.instance);
+	export let registerView = OpenCtxManager.instance.registerView.bind(OpenCtxManager.instance);
+	export let show = OpenCtxManager.instance.show.bind(OpenCtxManager.instance);
+	export let close = OpenCtxManager.instance.close.bind(OpenCtxManager.instance);
+	export let postMessage = OpenCtxManager.instance.postMessage.bind(OpenCtxManager.instance);
 }
