@@ -44,7 +44,7 @@ module ui {
             super.invalidateSize();
             this._label.width = this.width;
             this._label.autoHeight();
-            this._label.y=this.height/2-this._label.height/2-this._anchorOffset.y+this.height*this._offsetLabel.y;
+            this._label.y=this.height/2-this._label.height/2+this.height*this._offsetLabel.y;
         }
     }
 }
