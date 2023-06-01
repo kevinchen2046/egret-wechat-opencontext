@@ -39,13 +39,13 @@
 主域显示UI
 ```javascript
 openctx.initialize(this.stage, this);
-openctx.registerView(opencontext.OpenContextViewName.Example, ExampleDialog);
-openctx.show(opencontext.OpenContextViewName.Example);
+openctx.registerView(openctx.UIName.Example, ExampleDialog);
+openctx.show(openctx.UIName.Example);
 ```
 ### 开放域
 开放域注册UI内容
 ```javascript
-openctx.registerView(opencontext.OpenContextViewName.Example,ExampleContent);
+openctx.registerView(openctx.UIName.Example,ExampleContent);
 openctx.initialize(this.stage,this);
 ```
 
